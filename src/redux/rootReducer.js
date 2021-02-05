@@ -2,13 +2,17 @@ import {
   CHANGE_TEXT,
   CHANGE_STYLES,
   TABLE_RESIZE,
-  APPLY_STYLE, CHANGE_TITLE
+  APPLY_STYLE,
+  CHANGE_TITLE,
+  INIT
 } from '@/redux/types';
 
 export function rootReducer(state, action) {
   let field
   let val
   switch (action.type) {
+    case INIT:
+      return {...state, lastVisited: Date.now()}
     case TABLE_RESIZE:
       field = action.data.stateName
       return {
@@ -42,7 +46,7 @@ export function rootReducer(state, action) {
 }
 
 function value(state, field, action) {
-  const val = state[field] || {}
+  const val = {...state[field]}
   val[action.data.id] = action.data.value
   return val
 }
