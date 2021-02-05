@@ -52,3 +52,11 @@ export function debounce(fn, wait) {
     timeout = setTimeout(later, wait)
   }
 }
+
+export function storageName(param) {
+  return 'excel:' + param
+}
+
+export function preventDefault(event) {
+  event.preventDefault()
+}

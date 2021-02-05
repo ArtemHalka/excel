@@ -2,8 +2,16 @@ import {
   CHANGE_TEXT,
   CHANGE_STYLES,
   TABLE_RESIZE,
-  APPLY_STYLE, CHANGE_TITLE
+  APPLY_STYLE,
+  CHANGE_TITLE,
+  INIT
 } from '@/redux/types';
+
+export function init() {
+  return {
+    type: INIT
+  }
+}
 
 export function tableResize(data) {
   return {
