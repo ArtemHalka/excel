@@ -1,5 +1,6 @@
 import {$} from '../dom';
 import {ActiveRoute} from './ActiveRoute';
+import {Loader} from '../../components/Loader';
 
 export class Router {
   constructor(selector, routes) {
@@ -9,6 +10,7 @@ export class Router {
     this.$placeholder = $(selector)
     this.routes = routes
     this.page = null
+    this.loader = new Loader()
     this.changePageHandler = this.changePageHandler.bind(this)
     this.init()
   }
@@ -18,16 +20,18 @@ export class Router {
     this.changePageHandler()
   }
 
-  changePageHandler() {
+  async changePageHandler() {
     if (this.page) {
       this.page.destroy()
     }
+    this.$placeholder.clear().append(this.loader)
     const path = ActiveRoute.page
     const Page = Object.prototype.hasOwnProperty.call(this.routes, path)
       ? this.routes[path]
       : this.routes.dashboard
     this.page = new Page(ActiveRoute.param)
-    this.$placeholder.clear().append(this.page.getRoot())
+    const root = await this.page.getRoot()
+    this.$placeholder.clear().append(root)
     this.page.afterRender()
   }
 
